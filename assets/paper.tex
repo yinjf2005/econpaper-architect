@@ -1,0 +1,180 @@
+% EconPaper Architect · LaTeX 论文模板
+% 编译：xelatex -> bibtex -> xelatex -> xelatex
+% 说明：中文用 ctex（XeLaTeX）；英文投稿时删掉 \usepackage{ctex} 并改 documentclass 为对应 cls。
+\documentclass[11pt,a4paper]{article}
+
+% ---------- 中文与字体 ----------
+\usepackage{ctex}
+\usepackage{geometry}
+\geometry{left=3cm,right=3cm,top=2.5cm,bottom=2.5cm}
+
+% ---------- 数学 ----------
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\numberwithin{equation}{section}
+\theoremstyle{plain}
+\newtheorem{hyp}{假说}
+
+% ---------- 表格：一律三线表 ----------
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{siunitx}
+\sisetup{input-symbols=(), detect-all}
+
+% ---------- 图形 ----------
+\usepackage{graphicx}
+\usepackage{caption}
+\captionsetup{font=small, labelfont=bf}
+\graphicspath{{figures/}}
+
+% ---------- 引用 ----------
+\usepackage[round]{natbib}
+\bibliographystyle{aer}          % 中文期刊可换 plainnat / gbt7714-numerical
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,citecolor=blue,linkcolor=black,urlcolor=blue}
+
+% ---------- 版式 ----------
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{indentfirst}
+\setlength{\parskip}{0.3em}
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+
+% ---------- 自定义命令 ----------
+\newcommand{\sym}[1]{\rlap{$^{#1}$}}        % 显著性标注：\sym{***}
+\newcommand{\cneed}[1]{\textbf{[待填：#1]}}
+
+% ============================================================
+\title{[论文标题：中文 $\le$ 25 字 / 英文 $\le$ 15 词]}
+\author{[作者]\thanks{[基金资助 / 通讯作者 / 致谢。AI 辅助情况须按目标期刊要求披露。]}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+% ---------------- 摘要 ----------------
+\begin{abstract}
+\noindent [200--300 字（英文 150--250 词）。五要素：问题 $\rightarrow$ 方法 $\rightarrow$ 数据 $\rightarrow$ 主要发现（含量级）$\rightarrow$ 贡献。不引用文献、不含公式、不含脚注。]
+
+\par\smallskip
+\noindent\textbf{关键词：} [关键词1；关键词2；关键词3]
+
+\par\smallskip
+\noindent\textbf{JEL 分类号：} [如 J23, C23]
+\end{abstract}
+
+% ---------------- 正文 ----------------
+\section{引言}
+[1200--1800 字。AER 式七段式：钩子 $\rightarrow$ 研究问题 $\rightarrow$ 识别策略 $\rightarrow$ 主要发现（含量级）$\rightarrow$ 文献贡献 $\rightarrow$ 政策相关性 $\rightarrow$ 路线图。]
+
+\section{文献综述}
+[中文核心式独立成节；AER 式并入引言。按主题分组，每组末尾指出本文边际贡献。]
+
+\section{理论框架}
+\subsection{模型设定}
+[假设呈现顺序：从最一般到最限制性。]
+
+\begin{equation}\label{eq:model}
+\max_{c_t}\ \sum_{t=0}^{\infty}\beta^{t}u(c_t)
+\quad \text{s.t.} \quad
+a_{t+1}=(1+r)a_t+w_t-c_t
+\end{equation}
+
+\subsection{假说推导}
+\begin{hyp}\label{hyp:h1}
+由式~\eqref{eq:model} 可得：[假说内容，须与实证部分变量形成可检验对应关系]。
+\end{hyp}
+
+\section{数据与变量}
+\subsection{描述性统计}
+% 三线表示例（由 esttab / fsum 导出）
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{描述性统计}
+\label{tab:desc}
+\begin{tabular}{lccccc}
+\toprule
+变量 & 均值 & 标准差 & 最小值 & 最大值 & 观测值 \\
+\midrule
+被解释变量 $Y$ & 0.150 & 0.120 & 0.010 & 0.890 & 3,240 \\
+核心解释变量 $X$ & 0.450 & 0.230 & 0.000 & 1.000 & 3,240 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\footnotesize
+\item 注：数据来源为\cneed{填写来源}；样本区间为\cneed{填写区间}。存在 \texttt{[SIM]} 标记者为模拟数据，仅供格式演示。
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{制度背景}
+[政策时点、实施范围、执行强度差异——DID / RDD 识别成立的事实基础。]
+
+\section{实证策略}
+\subsection{基准模型}
+\begin{equation}\label{eq:did}
+Y_{it}=\alpha+\beta D_{it}+\gamma X_{it}+\mu_i+\lambda_t+\varepsilon_{it}
+\end{equation}
+其中 $D_{it}$ 为处理变量，$\mu_i$ 与 $\lambda_t$ 分别为个体与时间固定效应，标准误聚类到\cneed{层级}层面。
+
+\subsection{识别假设}
+[硬阻断项 H3：本节缺失则校验不通过。须陈述假设、论证其在本文情境下成立、并给出证伪检验。]
+
+% 回归结果三线表示例
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{基准回归结果}
+\label{tab:main}
+\begin{tabular}{lccc}
+\toprule
+ & (1) & (2) & (3) \\
+\midrule
+核心解释变量 & 0.150\sym{***} & 0.132\sym{***} & 0.128\sym{***} \\
+ & (0.021) & (0.020) & (0.019) \\
+\midrule
+控制变量 & 否 & 是 & 是 \\
+个体固定效应 & 是 & 是 & 是 \\
+时间固定效应 & 是 & 是 & 是 \\
+\midrule
+样本量 & 3,240 & 3,240 & 3,240 \\
+调整 $R^2$ & 0.112 & 0.203 & 0.211 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\footnotesize
+\item 注：括号内为聚类到个体层面的稳健标准误；\sym{*} $p<0.1$，\sym{**} $p<0.05$，\sym{***} $p<0.01$。
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\section{结果}
+[用具体数字陈述：``$X$ 每增加 1 个标准差，$Y$ 增加 0.15 个单位（$p<0.01$）''。]
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.8\textwidth]{fig_event.png}
+\caption{事件研究图\quad{\footnotesize 注：数据来源于\cneed{填写}；阴影为 95\% 置信区间。}}
+\label{fig:event}
+\end{figure}
+
+\section{稳健性检验}
+[由 \texttt{scripts/decide.py} 输出的稳健性清单填入。]
+
+\section{结论与政策建议}
+[主要发现 $\rightarrow$ 政策含义（基于结果，不凭空得出）$\rightarrow$ 研究局限 $\rightarrow$ 未来方向。]
+
+% ---------------- 参考文献 ----------------
+\bibliography{references}
+
+% ---------------- 附录 ----------------
+\appendix
+\section{证明}
+\section{额外表格}
+\section{数据说明}
+\section{代码}
+
+\end{document}
